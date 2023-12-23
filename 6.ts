@@ -18,15 +18,13 @@ function getNumWaysToWin(t: number, recordDist: number) {
   return ways;
 }
 
-const waysList = times.map((time, idx) => {
+const p1 = times.reduce((acc, time, idx) => {
   const distance = distances[idx];
-  return getNumWaysToWin(time, distance);
-});
+  return acc * getNumWaysToWin(time, distance);
+}, 1);
 
-const p1 = waysList.reduce((res, ways) => res * ways, 1);
 console.log(p1);
 
-//p2
 const time = Number(
   times.reduce((res, num) => res + num.toString(), "")
 );
@@ -34,5 +32,5 @@ const distance = Number(
   distances.reduce((res, num) => res + num.toString(), "")
 );
 
-const ways = getNumWaysToWin(time, distance);
-console.log(ways);
+const p2 = getNumWaysToWin(time, distance);
+console.log(p2);
