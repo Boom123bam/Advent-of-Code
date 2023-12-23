@@ -270,39 +270,34 @@ function findMin(seeds: number[]) {
   );
 }
 
-let sections = input.split("\n\n");
+let sections = testInput.split("\n\n");
 
 const firstLine = sections.shift();
 
-const seeds = firstLine
-  ?.split(": ")[1]
-  .split(" ")
-  .map((num) => Number(num));
+const seeds = firstLine?.split(": ")[1].split(" ").map(Number);
 
 let maps = sections.map((section) =>
   section
     .split("map:\n")[1]
     .split("\n")
-    .map((line) => line.split(" ").map((num) => Number(num)))
+    .map((line) => line.split(" ").map(Number))
 );
 
 if (seeds) console.log(findMin(seeds));
 
-const pairsIterable = firstLine?.split(":")[1].matchAll(/\d+ \d+/g);
-
-const pairs: number[][] = [];
-
-if (pairsIterable)
-  for (const data of pairsIterable) {
-    const pair = data[0].split(" ").map((num) => Number(num));
-    pairs.push(pair);
-  }
+const pairs = firstLine
+  ?.split(":")[1]
+  .match(/\d+ \d+/g)
+  ?.map((pair) => {
+    const [start, range] = pair.split(" ").map(Number);
+    return { start, end: start + range };
+  });
 
 let p2Min = Infinity;
-pairs.forEach((pair) => {
-  const [start, length] = pair;
-  for (let i = 0; i < length; i++) {
-    const res = getLocation(start + i);
+pairs?.forEach((pair) => {
+  const { start, end } = pair;
+  for (let i = start; i < end; i++) {
+    const res = getLocation(i);
     if (res < p2Min) p2Min = res;
   }
 });
