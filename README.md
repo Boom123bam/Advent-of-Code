@@ -14,11 +14,11 @@ gcc day-[n]/[filename].c
 
 #### Py:
 ```
-python(3) day[n]/[filename].py
+python(3) day-[n]/[filename].py
 ```
 
 #### JS:
 ```
-node day[n]/[filename].py
+node day-[n]/[filename].py
 ```
 
