@@ -14,16 +14,19 @@
 #define DRAW_SCORE 3
 #define LOSS_SCORE 0
 
-
-int getType(char letter){
+int getType(char letter)
+{
 	char rps[3][2] = {"AX", "BY", "CZ"};
-	for(int i=0; i < 3; i++){
-		if (rps[i][0] == letter || rps[i][1] == letter) return i;
+	for (int i = 0; i < 3; i++)
+	{
+		if (rps[i][0] == letter || rps[i][1] == letter)
+			return i;
 	}
 	return -1;
 }
 
-int main(){
+int main()
+{
 	FILE *fptr;
 
 	// Open a file in read mode
@@ -52,20 +55,18 @@ int main(){
 		else if (beats[me] == opponent)
 			// win
 			totalScore += WIN_SCORE;
-		
-		else totalScore += LOSS_SCORE;
+
+		else
+			totalScore += LOSS_SCORE;
 
 		totalScore += rpsScores[me];
 
 		// printf("%c %c %d\n",
-	 // 		me == ROCK ? 'r' : me == PAPER ? 'p' : 's',
-	 // 		opponent == ROCK ? 'r' : me == PAPER ? 'p' : 's',
+		// 		me == ROCK ? 'r' : me == PAPER ? 'p' : 's',
+		// 		opponent == ROCK ? 'r' : me == PAPER ? 'p' : 's',
 		// 	totalScore
-	 // 	);
+		// 	);
 	}
 
 	printf("%d\n", totalScore);
-	
-	
 }
-
