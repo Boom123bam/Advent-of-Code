@@ -8,12 +8,17 @@ solutions for AoC 2022 in various languages
 
 #### C:
 ```
-gcc day-[x]/[1 or 2].c  
+gcc day-[n]/[filename].c  
 ./a.out
 ```
 
 #### Py:
 ```
-python(3) day[x]/[1 or 2].py
+python(3) day[n]/[filename].py
+```
+
+#### JS:
+```
+node day[n]/[filename].py
 ```
 
