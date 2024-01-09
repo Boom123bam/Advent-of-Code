@@ -1,45 +1,41 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 int getNextNum(char lineString[]);
 
-int main()
-{
+int main() {
   FILE *fptr;
   // Open a file in read mode
-  fptr = fopen("input2.txt", "r");
+  fptr = fopen("day-4/input2.txt", "r");
   char lineString[100];
-  int count = 0;
+  int p1count = 0;
+  int p2count = 0;
   int s1, s2, e1, e2;
 
-  while (fgets(lineString, 100, fptr))
-  {
+  while (fgets(lineString, 100, fptr)) {
     // printf("%s\n", lineString);
     s1 = getNextNum(lineString);
     e1 = getNextNum(lineString);
     s2 = getNextNum(lineString);
     e2 = getNextNum(lineString);
 
-    // if ((s2 >= s1 && e2 <= e1) || (s1 >= s2 && e1 <= e2))
+    if ((s2 >= s1 && e2 <= e1) || (s1 >= s2 && e1 <= e2))
+      p1count++;
     if (!((e1 < s2) || (e2 < s1)))
-      count++;
+      p2count++;
   }
 
-  printf("%d\n", count);
+  printf("part 1: %d\npart 2: %d\n", p1count, p2count);
 
   // Close the file
   fclose(fptr);
 }
 
-int getNextNum(char lineString[])
-{
+int getNextNum(char lineString[]) {
   static int index = 0;
   int result = 0;
   char c;
 
-  while ((c = lineString[index++]) != '\n')
-  {
+  while ((c = lineString[index++]) != '\n') {
     if (c >= '0' && c <= '9')
       result = 10 * result + (c - '0');
 
@@ -50,16 +46,3 @@ int getNextNum(char lineString[])
   index = 0;
   return result;
 }
-
-/*
-
-s1 l1 s2 l2
-if 2 is inside 1:
-s2 >= s1 && s1 + l1 <= s2...
-
-s1-e1 s2-e2
-if 2 is inside 1:
-s2 >= s1 && e2 <= e1
-
-or s1 >= s2 && e1 <= e2
-*/
