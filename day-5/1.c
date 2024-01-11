@@ -55,9 +55,10 @@ int main() {
     colFrom = instructions[i][1] - 1;
     colTo = instructions[i][2] - 1;
     for (int count = 0; count < amount; count++) {
-      c = pop(colFrom);
-      push(colTo, c);
+      pop(colFrom);
+      // push(colTo);
     }
+    push(colTo);
   }
 
   // printStacks(numCols);

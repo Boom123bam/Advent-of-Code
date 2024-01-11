@@ -6,14 +6,24 @@
 
 static char stacks[MAX_STACK_HEIGHT][MAX_NUM_STACKS];
 static char *stackTopPointers[MAX_NUM_STACKS];
+static char tempStack[MAX_STACK_HEIGHT];
+static char *tempStackTopPointer;
 
 void getStackTopPointers() {
   for (int i = 0; i < MAX_NUM_STACKS; i++) {
     stackTopPointers[i] = &stacks[i][0];
   }
+  tempStackTopPointer = &tempStack[0];
 }
 
-void push(int stackIndex, char c) { *stackTopPointers[stackIndex]++ = c; }
+// void push(int stackIndex, char c) { *stackTopPointers[stackIndex]++ = c; }
+void push(int stackIndex) {
+  char *tempStackBottomPointer = &tempStack[0];
+
+  while (tempStackTopPointer > tempStackBottomPointer) {
+    *stackTopPointers[stackIndex]++ = *--tempStackTopPointer;
+  }
+}
 
 void pushBottom(int stackIndex, char c) {
   // find stack bottom
@@ -28,13 +38,16 @@ void pushBottom(int stackIndex, char c) {
   *stackBottomPointer = c;
 }
 
-char pop(int stackIndex) { return *--stackTopPointers[stackIndex]; }
+// char pop(int stackIndex) { return *--stackTopPointers[stackIndex]; }
+char pop(int stackIndex) {
+  return *tempStackTopPointer++ = *--stackTopPointers[stackIndex];
+}
 
 void printStackTops(int numStacks) {
   char c;
   for (int i = 0; i < numStacks; i++) {
     c = *(stackTopPointers[i] - 1);
-    printf("%c ", c ? c : '_');
+    printf("%c", c ? c : '_');
   }
   printf("\n");
 }
