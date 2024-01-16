@@ -32,7 +32,6 @@ for input_line in input_lines:
     max_x = max(max_x, x1, x2)
     max_y = max(max_y, y1, y2)
 
-count_map = [[0] * (max_x + 1)] * (max_y + 1)
 count_map = [[0] * (max_x + 1) for _ in range(max_y + 1)]
 
 for line in lines:
