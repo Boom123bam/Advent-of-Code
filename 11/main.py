@@ -68,8 +68,8 @@ def step():
     reset_flashes()
 
 
-# input = open("11/test.txt").read()
 input = open("11/input.txt").read()
+# input = open("11/test.txt").read()
 if input[-1] == "\n":
     input = input[:-1]
 lines = input.split("\n")

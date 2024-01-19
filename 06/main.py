@@ -9,8 +9,15 @@ def mutate_count(num_count):
     return new_count
 
 
-# input = open("6/test.txt").read()
-input = open("6/input.txt").read()
+def calc_total(num_count):
+    total = 0
+    for count in num_count:
+        total += count
+    return total
+
+
+input = open("06/input.txt").read()
+# input = open("06/test.txt").read()
 if input[-1] == "\n":
     input = input[:-1]
 
@@ -20,11 +27,11 @@ num_count = [0] * 9
 for num in nums:
     num_count[num] += 1
 
-
-for i in range(256):
+# part 1
+for i in range(80):
     num_count = mutate_count(num_count)
-
-total = 0
-for count in num_count:
-    total += count
-print(total)
+print(calc_total(num_count))
+# part 2
+for i in range(256 - 80):
+    num_count = mutate_count(num_count)
+print(calc_total(num_count))

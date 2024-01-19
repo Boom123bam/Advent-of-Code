@@ -14,8 +14,8 @@ def get_corrupted_char_or_matches(line):
     return [None, expected_matches]
 
 
-input = open("10/test.txt").read()
 input = open("10/input.txt").read()
+# input = open("10/test.txt").read()
 if input[-1] == "\n":
     input = input[:-1]
 lines = input.split("\n")

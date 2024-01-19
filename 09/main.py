@@ -1,5 +1,5 @@
-# input = open("9/test.txt").read()
-input = open("9/input.txt").read()
+input = open("09/input.txt").read()
+# input = open("09/test.txt").read()
 if input[-1] == "\n":
     input = input[:-1]
 lines = input.split("\n")

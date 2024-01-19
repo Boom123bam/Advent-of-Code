@@ -1,4 +1,5 @@
-file = open("1/input.txt")
+file = open("01/input.txt")
+# file = open("01/test.txt")
 input = file.read()
 lines = input.split()
 

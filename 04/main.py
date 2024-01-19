@@ -72,7 +72,8 @@ def find_sum(board):
 
 
 # read file
-file = open("4/input.txt")
+file = open("04/input.txt")
+# file = open("04/test.txt")
 input = file.read()
 
 # remove blank line

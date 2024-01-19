@@ -60,8 +60,8 @@ def get_ordered_nums(nums_left):
     return ordered_nums
 
 
-input_str = open("8/input.txt").read()
-# input_str = open("8/test.txt").read()
+input_str = open("08/input.txt").read()
+# input_str = open("08/test.txt").read()
 if input_str[-1] == "\n":
     input_str = input_str[:-1]
 lines = input_str.split("\n")
