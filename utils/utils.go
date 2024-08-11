@@ -34,6 +34,5 @@ func ExtractNums(s string) []int {
 			}
 		}
 	}
-
 	return result
 }
