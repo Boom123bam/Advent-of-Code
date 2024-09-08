@@ -1,4 +1,4 @@
-const input = `Card   1: 30 51 48 31 36 33 49 83 86 17 | 17 33 31 70 90 37 86 45 58 21 83 52 59 68 55 32 20 43 48 75 30 42 80 60 71
+Card   1: 30 51 48 31 36 33 49 83 86 17 | 17 33 31 70 90 37 86 45 58 21 83 52 59 68 55 32 20 43 48 75 30 42 80 60 71
 Card   2: 83 45 32 60 10 94 13 29 52 43 | 47 15 94 32 13 64  4 48 20 83 52 75 41 50 60 14 45 43 37 29 35 10 89 77 25
 Card   3: 15  1  9 91 24 53 88 45 60 82 | 86 92 57 55 85  2 58 66 25 38 43 76 39 62 64 54 87 35 27 99 42 36 56 40 47
 Card   4: 49 19 86  1 45 62 58 42 22 72 | 58 45 69 80 96 56 72 71 42 26  1 22 49 93 86 39 19 68 38 48 67  5 61 62 28
@@ -204,53 +204,4 @@ Card 203: 31 66 21 63 36 91 49 68 65 64 | 18 54 23 99 22 97 65 75 16  2 49 57 93
 Card 204: 91 64 59 76 89 34 36 35 68 44 | 74 75 57 55 11 83 66 43 97 17 88  9 28 42 31 81  6 77 95 18 52 85 99 34 16
 Card 205: 66 58 78 27 80 97 31 75 12 69 | 77 73 68 40 98 51 37 82 87 44 54 65 81 41 67 79 66 99 95 85  3 13 24 29 58
 Card 206: 22 24 13 27  2 41 64 38 43 82 | 79 29 63 58 17 71 91 47 80 59 14 98 50 53 11 94 65  8 66 62 18 36 60 72 85
-Card 207: 52 14 61 69 16 53  1 34  9 77 | 21 59 75 39 60 40 38 74 95 97 46 80 19 28 64 66 57 37 41 90  7 62 32 58  4`;
-
-const testInput = `Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
-Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
-Card 3:  1 21 53 59 44 | 69 82 63 72 16 21 14  1
-Card 4: 41 92 73 84 69 | 59 84 76 51 58  5 54 83
-Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
-Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11`;
-
-// const lines = testInput.split("\n");
-const lines = input.split("\n");
-
-interface Card {
-  winning: number[];
-  have: number[];
-  amount: number;
-}
-
-const cardsData: Card[] = [];
-
-lines.forEach((line) => {
-  const parts = line.split(":")[1].split("|");
-
-  const card: Card = {
-    amount: 1,
-    winning: parts[0].match(/\d+/g)?.map((st) => Number(st)) ?? [],
-    have: parts[1].match(/\d+/g)?.map((st) => Number(st)) ?? [],
-  };
-  cardsData.push(card);
-});
-
-const sum1 = cardsData.reduce((acc, cardData, cardIndex) => {
-  let matches = 0;
-  cardData.have.forEach((num) => {
-    if (cardData.winning.includes(num)) matches++;
-  });
-
-  for (let i = 1; i <= matches; i++) {
-    if (typeof cardsData[cardIndex + i] !== "undefined")
-      cardsData[cardIndex + i].amount += cardData.amount;
-  }
-
-  return matches ? acc + 2 ** (matches - 1) : acc;
-}, 0);
-
-console.log(sum1);
-
-let sum2 = cardsData.reduce((acc, card) => card.amount + acc, 0);
-
-console.log(sum2);
+Card 207: 52 14 61 69 16 53  1 34  9 77 | 21 59 75 39 60 40 38 74 95 97 46 80 19 28 64 66 57 37 41 90  7 62 32 58  4

@@ -1,8 +1,7 @@
-const input = `Time:        42     89     91     89
-Distance:   308   1170   1291   1467`;
-
-const testInput = `Time:      7  15   30
-Distance:  9  40  200`;
+let input = await Deno.readTextFile("06/input.txt");
+if (input[input.length - 1] == "\n") {
+  input = input.slice(0, -1);
+}
 
 const [times, distances] = input
   .split("\n")
@@ -25,11 +24,9 @@ const p1 = times.reduce((acc, time, idx) => {
 
 console.log(p1);
 
-const time = Number(
-  times.reduce((res, num) => res + num.toString(), "")
-);
+const time = Number(times.reduce((res, num) => res + num.toString(), ""));
 const distance = Number(
-  distances.reduce((res, num) => res + num.toString(), "")
+  distances.reduce((res, num) => res + num.toString(), ""),
 );
 
 const p2 = getNumWaysToWin(time, distance);
