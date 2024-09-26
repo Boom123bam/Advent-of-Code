@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Day05 {
+public class Day06 {
 
     public static Map<String, Planet> planets = new HashMap<>();
 
