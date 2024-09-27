@@ -14,101 +14,94 @@ public class Day05 {
             e.printStackTrace();
         }
 
-        int[] intArray = Arrays.stream(line.split(","))
+        int[] originalArray = Arrays.stream(line.split(","))
             .mapToInt(Integer::parseInt)
             .toArray();
 
-        // part 1
-        int[] newArray = intArray.clone();
-        // newArray[1] = 12;
-        // newArray[2] = 2;
-        run(newArray, 8);
+        int[] newArray = originalArray.clone();
+        System.out.println(run(newArray, 1));
+        newArray = originalArray.clone();
+        System.out.println(run(newArray, 5));
     }
 
-    public static int run(int[] nums, int inputNum) {
-        Boolean endProgram = false;
-        for (int i = 0; i < nums.length;) {
-            int instruction = nums[i];
+    public static int run(int[] P, int INPUT) {
+        int lastOutput = -1;
+        int ip = 0;
+        while (true) {
+            int instruction = P[ip];
             int opcode = instruction % 100;
-            int[] paramModes = { 0, 0, 0 };
+            int[] modes = { 0, 0, 0 };
             instruction /= 100;
             for (int j = 0; j < 3; j++) {
-                paramModes[j] = instruction % 10;
+                modes[j] = instruction % 10;
                 instruction /= 10;
             }
-            instruction = nums[i];
-            // System.out.println(nums[i] + "," + i);
-            int param1 = i + 1 < nums.length ? nums[i + 1] : 0;
-            int param2 = i + 2 < nums.length ? nums[i + 2] : 0;
-            int param3 = i + 3 < nums.length ? nums[i + 3] : 0;
-            int first, second;
-            // System.out.println(opcode);
+
+            int i1, i2, i3;
+            i1 = ip + 1 < P.length ? P[ip + 1] : -1;
+            i2 = ip + 2 < P.length ? P[ip + 2] : -1;
+            i3 = ip + 3 < P.length ? P[ip + 3] : -1;
             switch (opcode) {
                 case 1:
+                    assert modes[2] == 0;
+                    P[i3] = (modes[0] == 1 ? i1 : P[i1]) +
+                    (modes[1] == 1 ? i2 : P[i2]);
+                    ip += 4;
+                    break;
                 case 2:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                    first = (paramModes[0] == 0 ? nums[param1] : param1);
-                    second = (paramModes[1] == 0 ? nums[param2] : param2);
-                    switch (opcode) {
-                        case 1:
-                            nums[param3] = first + second;
-                            i += 4;
-                            break;
-                        case 2:
-                            nums[param3] = first * second;
-                            i += 4;
-                            break;
-                        case 5:
-                            if (first != 0) {
-                                // nums[i] = second;
-                                // i = nums[i];
-                                i = second;
-                                break;
-                            }
-                            i += 3;
-                            break;
-                        case 6:
-                            if (first == 0) {
-                                // nums[i] = second;
-                                // i = nums[i];
-                                i = second;
-                                break;
-                            }
-                            i += 3;
-                            break;
-                        case 7:
-                            nums[param3] = first < second ? 1 : 0;
-                            i += 3;
-                            break;
-                        case 8:
-                            nums[param3] = first == second ? 1 : 0;
-                            i += 3;
-                            break;
-                    }
+                    assert modes[2] == 0;
+                    P[i3] = (modes[0] == 1 ? i1 : P[i1]) *
+                    (modes[1] == 1 ? i2 : P[i2]);
+                    ip += 4;
                     break;
                 case 3:
-                    nums[param1] = inputNum;
-                    i += 2;
+                    P[i1] = INPUT;
+                    ip += 2;
                     break;
                 case 4:
-                    System.out.println(nums[param1]);
-                    // if part 2 check if instruction modified
-                    i += 2;
+                    lastOutput = P[i1];
+                    ip += 2;
                     break;
-                case 99:
-                    endProgram = true;
+                case 5:
+                    if ((modes[0] == 1 ? i1 : P[i1]) != 0) {
+                        ip = modes[1] == 1 ? i2 : P[i2];
+                    } else {
+                        ip += 3;
+                    }
+                    break;
+                case 6:
+                    if ((modes[0] == 1 ? i1 : P[i1]) == 0) {
+                        ip = modes[1] == 1 ? i2 : P[i2];
+                    } else {
+                        ip += 3;
+                    }
+                    break;
+                case 7:
+                    if (
+                        (modes[0] == 1 ? i1 : P[i1]) <
+                        (modes[1] == 1 ? i2 : P[i2])
+                    ) {
+                        P[i3] = 1;
+                    } else {
+                        P[i3] = 0;
+                    }
+                    ip += 4;
+                    break;
+                case 8:
+                    if (
+                        (modes[0] == 1 ? i1 : P[i1]) ==
+                        (modes[1] == 1 ? i2 : P[i2])
+                    ) {
+                        P[i3] = 1;
+                    } else {
+                        P[i3] = 0;
+                    }
+                    ip += 4;
                     break;
                 default:
-                    System.out.println("Not opcode");
-                    return -1;
-            }
-            if (endProgram) {
-                break;
+                    assert opcode == 99;
+                    return lastOutput;
             }
         }
-        return nums[0];
     }
 }
