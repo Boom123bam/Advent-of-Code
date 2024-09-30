@@ -180,14 +180,3 @@ func subtract(a, b []allergen) []allergen {
 	}
 	return a
 }
-
-// func subtract(a *[]allergen, b []allergen) []allergen {
-// 	for i := 0; i < len(*a); {
-// 		if (*a)[i].in(b) {
-// 			(*a) = append((*a)[:i], (*a)[i+1:]...)
-// 		} else {
-// 			i++
-// 		}
-// 	}
-// 	return a
-// }
