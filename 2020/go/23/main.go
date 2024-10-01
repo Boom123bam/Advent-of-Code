@@ -2,86 +2,97 @@ package main
 
 import "fmt"
 
-type Cup struct {
-	label int
-	next  *Cup
-}
-
 func main() {
 	input := "712643589"
 	// input := "389125467"
-	// input := "1"
 
-	// make linked list
-	first := &Cup{label: int(input[0] - '0')}
-	current := first
-	for i := 1; i < len(input); i++ {
-		next := &Cup{label: int(input[i] - '0')}
-		current.next = next
-		current = next
+	cups := make([]int, 10)
+	first := int(input[0] - '0')
+	for i := 0; i < 8; i++ {
+		current := int(input[i] - '0')
+		next := int(input[i+1] - '0')
+		cups[current] = next
 	}
+	cups[int(input[8]-'0')] = first
 
-	for i := 10; i <= 1000000; i++ {
-		next := &Cup{label: i}
-		current.next = next
-		current = next
-	}
+	cups1 := make([]int, 10)
+	copy(cups1, cups)
 
-	current.next = first
-	current = first
+	cups1 = run(cups1, 10, first)
 
-	for i := 0; i < 10000000; i++ {
-		if i%10000 == 0 {
-			fmt.Println(i)
-		}
-		// pick up cups
-		pickUpStart := current.next
-		current.next = current.next.next.next.next
-
-		// get dest cup
-		dest := getDestCup(current, current.label-1)
-
-		// drop off 3 cups after
-		pickUpStart.next.next.next = dest.next
-		dest.next = pickUpStart
-
-		current = current.next
-	}
-
-	for current.label != 1 {
-		current = current.next
-	}
-	for current.next.label != 1 {
-		fmt.Print(current.next.label)
-		current = current.next
+	c := 1
+	for i := 0; i < 8; i++ {
+		fmt.Print(cups1[c])
+		c = cups1[c]
 	}
 	fmt.Println()
 
+	// part 2
+
+	cups[int(input[8]-'0')] = 10
+	for i := 10; i < 1000000; i++ {
+		cups = append(cups, i+1)
+	}
+	cups = append(cups, first)
+
+	cups = run(cups, 10000000, first)
+	fmt.Println(cups[1] * cups[cups[1]])
 }
 
-func getDestCup(start *Cup, targetLabel int) *Cup {
-	current := start.next
-	if targetLabel == 0 {
-		targetLabel = 9
-	}
-	for current != start {
-		if current.label == targetLabel {
-			return current
+func run(cups []int, times int, first int) []int {
+	c := first
+	for i := 0; i < times; i++ {
+		x := c
+		m := []int{}
+		for j := 0; j < 3; j++ {
+			x = cups[x]
+			m = append(m, x)
+
 		}
-		current = current.next
+		d := c - 1
+		if d == 0 {
+			d = len(cups) - 1
+		}
+
+		for in(m, d) {
+			d = d - 1
+			if d == 0 {
+				d = len(cups) - 1
+			}
+		}
+		n := cups[x]
+		cups[x] = cups[d]
+		cups[d] = cups[c]
+		cups[c] = n
+		c = n
 	}
-	return getDestCup(start, targetLabel-1)
+	return cups
+
 }
 
-func printCups(start *Cup, highlight *Cup) {
+func printCups(start, highlight int, cups []int) {
 	current := start
-	for current.next != start {
+	for cups[current] != start {
 		if current == highlight {
-			fmt.Printf("(%d)", current.label)
+			fmt.Printf("(%d)", current)
 		} else {
-			fmt.Printf(" %d ", current.label)
+			fmt.Printf(" %d ", current)
 		}
-		current = current.next
+		current = cups[current]
 	}
-	fmt.Printf("%d \n", current.label)
+	if current == highlight {
+		fmt.Printf("(%d)", current)
+	} else {
+		fmt.Printf(" %d ", current)
+	}
+	fmt.Println()
+}
+
+func in(nums []int, target int) bool {
+	for _, n := range nums {
+		if n == target {
+			return true
+		}
+	}
+	return false
 }
